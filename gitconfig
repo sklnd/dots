@@ -1,0 +1,17 @@
+[color]
+	ui = auto
+[user]
+	name = Chris Skalenda
+	email = chris@skalenda.org
+[alias]
+	co = checkout
+[merge]
+	tool = meld
+[diff]
+	guitool = meld
+[core]
+	editor = vim
+	autocrlf = false
+	excludesfile = ~/.git_global_ignore
+[init]
+	templatedir = ~/.git_template
