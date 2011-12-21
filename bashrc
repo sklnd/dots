@@ -1,4 +1,14 @@
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
 export LC_ALL=C
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(lesspipe)"
 
 # e will source a specific build environment script stored in .env
 e () {
@@ -23,7 +33,18 @@ else
 fi
 
 # Aliases
-alias ls="ls --color"
+alias g="ack-grep"
+
+# Enable colors support in LS
+if [ "$TERM" != "dumb" ]; then
+    eval "`dircolors -b`"
+    alias ls='ls --color=auto'
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d ~/bin ]; then
+    PATH=~/bin:"${PATH}"
+fi
 
 # I am a terrible lazy person
 export PATH="$PATH:."
