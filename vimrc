@@ -4,7 +4,7 @@ call pathogen#infect()
 " Set up fonts to something pleasant
 if has("gui_running")
   if has("gui_gtk2")
-    set guifont=Inconsolata\ 14
+    set guifont=Inconsolata\ 11
   elseif has("gui_win32")
     set guifont=Consolas:h11
   endif
