@@ -10,7 +10,9 @@ import os
 import shutil
 
 # Blacklisted files
-blacklist = [os.path.basename(__file__), 'backup']
+blacklist = [os.path.basename(__file__),
+             'backup',
+             'readme.markdown']
 
 
 # Stolen from a stackoverflow post on how to print term colors, came originally
