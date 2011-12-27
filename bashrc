@@ -1,6 +1,15 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# Create a PS1 color based on the hostname
+function ps1_color() {
+  HOST_HASH=$(hostname | sha1sum | awk '{print $1 }')
+  HASH_DEC=$(expr $(echo 16 i ${HOST_HASH:0:2} p | dc) % 100)
+  PS1_BRIGHT=$(expr ${HASH_DEC:0:1} % 2)
+  let "PS1_COLOR=(HASH_DEC +1) % 6 + 31"
+  echo "$PS1_BRIGHT;$PS1_COLOR"
+}
+
 export LC_ALL=C
 
 # check the window size after each command and, if necessary,
@@ -24,12 +33,13 @@ if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
 
+
 # Make bash completion work with git
 if [ -f /etc/bash_completion.d/git ]; then
   source /etc/bash_completion.d/git
-  export PS1="\[\e[32m\]<\u@\h>\[\e[0m\] \w\[\e[31m\]\$(__git_ps1)\[\e[0m\] \$ "
+  export PS1="\[\e[$(ps1_color)m\]<\u@\h>\[\e[0m\] \w\[\e[31m\]\$(__git_ps1)\[\e[0m\] \$ "
 else
-  export PS1="\[\e[32m\]<\u@\h>\[\e[0m\] \w\[\e[31m\]\[\e[0m\] \$ "
+  export PS1="\[\e[$(ps1_color)m\]<\u@\h>\[\e[0m\] \w\[\e[31m\]\[\e[0m\] \$ "
 fi
 
 # Aliases
