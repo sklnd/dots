@@ -1,3 +1,5 @@
+set nocompatible
+
 " Pathogen is pretty cool
 call pathogen#infect()
 
@@ -25,7 +27,6 @@ endif
 
 set background=dark
 
-set nocompatible
 source $VIMRUNTIME/vimrc_example.vim
 
 fixdel
@@ -221,3 +222,9 @@ inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 " Remap the up and down keys to be control + the normal vim arrow keys
 inoremap <expr> <C-j>     pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <C-k>     pumvisible() ? "\<C-p>" : "\<Up>"
+
+" Remap arrow keys to unbreak them in some terminals
+imap OA <ESC>ki
+imap OB <ESC>ji
+imap OC <ESC>li
+imap OD <ESC>hi
