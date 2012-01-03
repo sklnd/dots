@@ -4,7 +4,7 @@
 # Create a PS1 color based on the hostname
 function ps1_color() {
   HOST_HASH=$(hostname | sha1sum | awk '{print $1 }')
-  HOST_HASH=${HOST_HASH^^}
+  HOST_HASH=$(echo $HOST_HASH | tr '[:lower:]' '[:upper:]')
   HASH_DEC=$(expr $(echo ${HOST_HASH:0:2} p | dc) % 100)
   PS1_BRIGHT=$(expr ${HASH_DEC:0:1} % 2)
   let "PS1_COLOR=HASH_DEC % 6 + 31"
