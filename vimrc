@@ -223,6 +223,15 @@ inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 inoremap <expr> <C-j>     pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <C-k>     pumvisible() ? "\<C-p>" : "\<Up>"
 
+"""""""""""""""""""""
+" fugitive bindings
+"""""""""""""""""""""
+" fugitive keybindings
+map <leader>g  :Gcommit<cr>
+map <leader>gs :Gstatus<cr>
+map <leader>ge :Gedit HEAD<cr>
+map <leader>gd :Gdiff<cr>
+
 " Remap arrow keys to unbreak them in some terminals
 imap OA <ESC>ki
 imap OB <ESC>ji
