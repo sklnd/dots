@@ -4,10 +4,21 @@
 Quick and dumb script that takes all the files in the current directory
 that isn't the script itself or a dot file, and makes a symlink for it
 in the users home directory.
+
+Usage: deploydots.py [OPTION]
+
+Options:
+    -u, --update-submodules
+        update submodules used in this repository
 """
 
+from __future__ import print_function
+
+import getopt
 import os
 import shutil
+import sys
+from subprocess import call
 
 # Blacklisted files
 blacklist = [os.path.basename(__file__),
@@ -26,8 +37,11 @@ class bcolors:
     ENDC = '\033[0m'
 
 
-def cprint(string, color):
-    print color + string + bcolors.ENDC
+def cprint(string, color, end=os.linesep):
+    if not type(string) == str:
+        string = string.__str__()
+
+    print((color + string + bcolors.ENDC), end=end)
 
 
 def sievedot(dot):
@@ -70,7 +84,45 @@ def linkdot(dot):
         os.symlink(dotpath, linkpath)
 
 
-dots = os.listdir('.')
+def update_submodules():
+    cprint("Updating git submodules:\t\t", bcolors.OKGREEN, '')
 
-# Make symlinks for all the dots we find
-map(linkdot, [dot for dot in dots if sievedot(dot)])
+    # TODO: Should switch this to actually handle error output
+    if call(["git", "submodule", "update", "--init"]) == 0:
+        cprint("Success", bcolors.OKGREEN)
+    else:
+        cprint("Failed", bcolors.FAIL)
+
+
+def main(argv=None):
+    do_update = False
+
+    if argv is None:
+        argv = sys.argv
+
+    try:
+        opts, args = getopt.getopt(sys.argv[1:],
+                "hu", ["help", "update-submodules"])
+
+    except getopt.error as msg:
+        cprint(msg, bcolors.FAIL)
+        cprint("For help use --help", bcolors.WARNING)
+        sys.exit(1)
+
+    for o, a in opts:
+        if o in ("-h", "--help"):
+            print(__doc__)
+            sys.exit(0)
+        elif o in ("-u", "--update-submodules"):
+            do_update = True
+
+    if do_update:
+        update_submodules()
+    dots = os.listdir('.')
+
+    # Make symlinks for all the dots we find
+    list(map(linkdot, [dot for dot in dots if sievedot(dot)]))
+
+
+if __name__ == "__main__":
+    exit(main())
