@@ -32,7 +32,7 @@ source $VIMRUNTIME/vimrc_example.vim
 fixdel
 set backspace=indent,eol,start
 
-colors torte
+colors tango
 
 nnoremap <silent> <F11> :TlistToggle<CR>
 :set guioptions-=T  "remove toolbar
