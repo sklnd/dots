@@ -1,12 +1,18 @@
 #!/usr/bin/env python
 
 """
-Quick and dumb script that takes all the files in the current directory
-that isn't the script itself or a dot file, and makes a symlink for it
-in the users home directory.
+A script for maintaining a dots repository.
 
-Usage: deploydots.py [-u|--update-submodules]
-                     [(-a|--add-vim-plugin) URL]
+Features:
+    * Maintains a symlink farm for all files in the repository to the user's home
+      directory as dotfiles. Existing dotfiles that conflict with dotfiles that
+      conflict with files being deployed are backed up to a backup directory in
+      the repository.
+    * Manages vim plugins that are maintained in git as git submodules.
+    * Supports updating the repositories submodules.
+
+Usage: mdots.py [-u|--update-submodules]
+                [(-a|--add-vim-plugin) URL]
 
 Options:
     -u, --update-submodules
