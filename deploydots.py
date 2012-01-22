@@ -5,19 +5,31 @@ Quick and dumb script that takes all the files in the current directory
 that isn't the script itself or a dot file, and makes a symlink for it
 in the users home directory.
 
-Usage: deploydots.py [OPTION]
+Usage: deploydots.py [-u|--update-submodules]
+                     [(-a|--add-vim-plugin) URL]
 
 Options:
     -u, --update-submodules
         update submodules used in this repository
+    -a, --add-vim-plugin URL
+        add a vim plugin at URL as a git submodule
 """
 
 from __future__ import print_function
 
+import sys
+
+if sys.version > '3':
+    from urllib.parse import urlparse
+else:
+    from urlparse import urlparse
+
 import getopt
 import os
+import re
 import shutil
-import sys
+import shlex
+import subprocess
 from subprocess import call
 
 # Blacklisted files
@@ -87,11 +99,51 @@ def linkdot(dot):
 def update_submodules():
     cprint("Updating git submodules:\t\t", bcolors.OKGREEN, '')
 
-    # TODO: Should switch this to actually handle error output
-    if call(["git", "submodule", "update", "--init"]) == 0:
+    # TODO: Should switch this to actually handle output
+    if call(["git", "submodule", "foreach", "git", "pull", "origin", "master",
+        "--recurse-submodules"]) == 0:
         cprint("Success", bcolors.OKGREEN)
     else:
         cprint("Failed", bcolors.FAIL)
+
+
+def add_vim_plugin(submodule):
+    """Add a vim plugin as a git submodule."""
+    url = urlparse(submodule)
+
+    # Treat the last bit of the URL as the plugin name
+    plugin = url.path.split('/')[-1]
+
+    # If it has a .vim or a .git suffix, remove that.
+    if plugin.endswith('.vim') or plugin.endswith('.git'):
+        plugin = plugin.split('.')[0]
+
+    # Colorful printing is complicated
+    cprint("Adding vim plugin ", bcolors.OKGREEN, "")
+    cprint("%s" % (plugin), bcolors.OKBLUE, "")
+    if not url.netloc == "":
+        cprint(" from ", bcolors.OKGREEN, "")
+
+    cprint("%s" % (url.netloc), bcolors.OKBLUE, "")
+    cprint(":\t\t", bcolors.OKGREEN, "")
+
+    # Generate a command string that's easy to maintain, and use shlex
+    # to parse it to something Popen can use.
+    command = "git submodule add %s vim/bundle/%s" % (submodule, plugin)
+    args = shlex.split(command)
+
+    # Run the process and collect its output
+    p = subprocess.Popen(args, stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT)
+    err = p.wait()
+    retval = p.stdout.read()
+
+    if err:
+        cprint("[Failed]", bcolors.FAIL)
+        cprint("Reason: ", bcolors.FAIL, "")
+        print(retval)
+    else:
+        cprint("[Success]", bcolors.OKGREEN)
 
 
 def main(argv=None):
@@ -102,7 +154,7 @@ def main(argv=None):
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],
-                "hu", ["help", "update-submodules"])
+                "ahu", ["help", "update-submodules", "add-vim-plugin"])
 
     except getopt.error as msg:
         cprint(msg, bcolors.FAIL)
@@ -113,6 +165,8 @@ def main(argv=None):
         if o in ("-h", "--help"):
             print(__doc__)
             sys.exit(0)
+        elif o in ("-a", "--add-vim-plugin"):
+            sys.exit(add_vim_plugin(args[0]))
         elif o in ("-u", "--update-submodules"):
             do_update = True
 
