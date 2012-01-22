@@ -30,7 +30,6 @@ import re
 import shutil
 import shlex
 import subprocess
-from subprocess import call
 
 # Blacklisted files
 blacklist = [os.path.basename(__file__),
@@ -97,14 +96,20 @@ def linkdot(dot):
 
 
 def update_submodules():
-    cprint("Updating git submodules:\t\t", bcolors.OKGREEN, '')
+    cprint("Updating git submodules:\t\t", bcolors.OKBLUE, '')
 
+    # Generate a command string that's easy to maintain, and use shlex
+    # to parse it to something Popen can use.
+    command = "git submodule foreach git pull origin master" \
+        " --recurse-submodules"
+    args = shlex.split(command)
     # TODO: Should switch this to actually handle output
-    if call(["git", "submodule", "foreach", "git", "pull", "origin", "master",
-        "--recurse-submodules"]) == 0:
-        cprint("Success", bcolors.OKGREEN)
+    if subprocess.call(args) == 0:
+        cprint("[Success]", bcolors.OKGREEN)
+        return 0
     else:
-        cprint("Failed", bcolors.FAIL)
+        cprint("[Failed]", bcolors.FAIL)
+        return 1
 
 
 def add_vim_plugin(submodule):
@@ -142,8 +147,10 @@ def add_vim_plugin(submodule):
         cprint("[Failed]", bcolors.FAIL)
         cprint("Reason: ", bcolors.FAIL, "")
         print(retval)
+        return 1
     else:
         cprint("[Success]", bcolors.OKGREEN)
+        return 0
 
 
 def main(argv=None):
@@ -168,10 +175,8 @@ def main(argv=None):
         elif o in ("-a", "--add-vim-plugin"):
             sys.exit(add_vim_plugin(args[0]))
         elif o in ("-u", "--update-submodules"):
-            do_update = True
+            sys.exit(update_submodules())
 
-    if do_update:
-        update_submodules()
     dots = os.listdir('.')
 
     # Make symlinks for all the dots we find
