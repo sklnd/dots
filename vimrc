@@ -12,6 +12,10 @@ if has("gui_running")
   endif
 endif
 
+" Set up the ack plugin on Ubuntu.
+if filereadable("/usr/bin/ack-grep")
+    let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+endif
 
 if has('multi_byte')      " Make sure we have unicode support
    scriptencoding utf-8    " This file is in UTF-8
