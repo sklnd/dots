@@ -241,3 +241,7 @@ imap OA <ESC>ki
 imap OB <ESC>ji
 imap OC <ESC>li
 imap OD <ESC>hi
+
+" wildmenu is wild
+set wildmenu
+set wildmode=list:longest,full
