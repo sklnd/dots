@@ -236,11 +236,13 @@ map <leader>gs :Gstatus<cr>
 map <leader>ge :Gedit HEAD<cr>
 map <leader>gd :Gdiff<cr>
 
-" Remap arrow keys to unbreak them in some terminals
-imap OA <ESC>ki
-imap OB <ESC>ji
-imap OC <ESC>li
-imap OD <ESC>hi
+if !has("gui_running")
+  " Remap arrow keys to unbreak them in some terminals
+  imap OA <ESC>ki
+  imap OB <ESC>ji
+  imap OC <ESC>li
+  imap OD <ESC>hi
+endif
 
 " wildmenu is wild
 set wildmenu
