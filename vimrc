@@ -212,11 +212,7 @@ au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 set completeopt=menuone,menu,longest,preview
 
 " Set the popup menu colors to NOT HOT PINK
-if has("gui_running")
-  :highlight Pmenu guibg=brown gui=bold
-else
-  :highlight Pmenu ctermbg=238 gui=bold
-endif
+highlight Pmenu guibg=brown ctermbg=238 gui=bold
 
 " Set a couple mappings to quickly select with enter or cancel omnicomplete
 " with esc
@@ -247,3 +243,6 @@ endif
 " wildmenu is wild
 set wildmenu
 set wildmode=list:longest,full
+
+" Python stuff
+au BufNewFile,BufRead,BufEnter *.py set sw=4
