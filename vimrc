@@ -31,15 +31,14 @@ endif
 
 set background=dark
 
-source $VIMRUNTIME/vimrc_example.vim
-
+" Backspace fixes
 fixdel
 set backspace=indent,eol,start
 
 colors tango
 
 nnoremap <silent> <F11> :TlistToggle<CR>
-:set guioptions-=T  "remove toolbar
+set guioptions-=T  "remove toolbar
 
 set nomh
 
@@ -83,10 +82,14 @@ imap <C-tab> <ESC>:tabnext<cr>i
 nmap <C-t> :tabnew<cr>
 imap <C-t> <ESC>:tabnew<cr> 
 
+" Nobody really needs those backup files
 set nobackup
 set nowritebackup
+
+" Autoindent rules
 set autoindent 
 
+" Make searching easier to deal with
 set ignorecase
 set smartcase
 
@@ -106,16 +109,6 @@ if (v:version == 603 && has("patch045")) || (v:version > 603)
    set modelines=3
 else
    set nomodeline
-endif
-
-
-" ---- Spelling ----
-if (v:version >= 700)
-   set spelllang=en_us        " US English Spelling please
-
-   " Toggle spellchecking with F10
-   nmap <silent> <F10> :silent set spell!<CR>
-   imap <silent> <F10> <C-O>:silent set spell!<CR>
 endif
  
 " Show trailing whitespace visually
@@ -149,10 +142,15 @@ endif
 " ---- Spelling ----
 if (v:version >= 700)
    set spelllang=en_us        " US English Spelling please
+   " speeling
 
-   " Toggle spellchecking with F10
+   " Toggle spellchecking with F7
    nmap <silent> <F7> :silent set spell!<CR>
    imap <silent> <F7> <C-O>:silent set spell!<CR>
+
+   " Toggle spellchecking with <leader>s too, thanks chromebook
+   nmap <silent> <leader>s :silent set spell!<CR>
+   imap <silent> <leader>s <C-O>:silent set spell!<CR>
 endif
 
 
