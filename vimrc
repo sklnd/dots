@@ -248,3 +248,14 @@ set wildmode=list:longest,full
 
 " Python stuff
 au BufNewFile,BufRead,BufEnter *.py set sw=4
+
+" Buffer switching
+" switching to buffer 1 - 9 is mapped to ,[nOfBuffer]
+for buffer_no in range(1, 9)
+    execute "nmap <Leader>" . buffer_no . " :b" . buffer_no . "\<CR>"
+endfor
+
+" switching to buffer 10 - 100 is mapped to ,0[nOfBuffer]
+for buffer_no in range(10, 100)
+    execute "nmap <Leader>0" . buffer_no . " :b" . buffer_no . "\<CR>"
+endfor
