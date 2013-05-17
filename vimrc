@@ -37,7 +37,10 @@ set backspace=indent,eol,start
 
 colors tango
 
+" Taglist
 nnoremap <silent> <F11> :TlistToggle<CR>
+let Tlist_Auto_Open=1
+
 set guioptions-=T  "remove toolbar
 
 set nomh
