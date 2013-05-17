@@ -212,6 +212,9 @@ set completeopt=menuone,menu,longest,preview
 " Set the popup menu colors to NOT HOT PINK
 highlight Pmenu guibg=brown ctermbg=238 gui=bold
 
+" Set highlight search
+set hlsearch
+
 " Set a couple mappings to quickly select with enter or cancel omnicomplete
 " with esc
 inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
@@ -236,6 +239,7 @@ if !has("gui_running")
   imap OB <ESC>ji
   imap OC <ESC>li
   imap OD <ESC>hi
+
 endif
 
 " wildmenu is wild
