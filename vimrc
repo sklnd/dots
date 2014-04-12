@@ -37,9 +37,9 @@ set backspace=indent,eol,start
 
 colors tango
 
-" Taglist
-nnoremap <silent> <F11> :TlistToggle<CR>
-let Tlist_Auto_Open=1
+" Tagbar
+nnoremap <silent> <F11> :TagbarToggle<CR>
+autocmd FileType * nested :call tagbar#autoopen(0)
 
 set guioptions-=T  "remove toolbar
 
