@@ -6,7 +6,7 @@ call pathogen#infect()
 " Set up fonts to something pleasant
 if has("gui_running")
   if has("gui_gtk2")
-    set guifont=Inconsolata\ 11
+    set guifont=Inconsolata\ 10
   elseif has("gui_win32")
     set guifont=Consolas:h11
   endif
@@ -41,7 +41,9 @@ colors tango
 nnoremap <silent> <F11> :TagbarToggle<CR>
 autocmd FileType * nested :call tagbar#autoopen(0)
 
-set guioptions-=T  "remove toolbar
+set guioptions-=T  " remove toolbar
+set guioptions+=LlRrb  " Add settings to
+set guioptions-=LlRrb  " remove scrollbars
 
 set nomh
 
