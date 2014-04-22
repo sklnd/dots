@@ -39,6 +39,9 @@ fi
 if [ -f /etc/bash_completion.d/git ]; then
   source /etc/bash_completion.d/git
   export PS1="\[\e[$(ps1_color)m\]<\u@\h>\[\e[0m\] \w\[\e[31m\]\$(__git_ps1)\[\e[0m\] \$ "
+elif [ -f /usr/lib/git-core/git-sh-prompt ]; then
+  source /usr/lib/git-core/git-sh-prompt
+  export PS1="\[\e[$(ps1_color)m\]<\u@\h>\[\e[0m\] \w\[\e[31m\]\$(__git_ps1)\[\e[0m\] \$ "
 else
   export PS1="\[\e[$(ps1_color)m\]<\u@\h>\[\e[0m\] \w\[\e[31m\]\[\e[0m\] \$ "
 fi
