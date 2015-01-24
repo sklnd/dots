@@ -1,6 +1,28 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+Color_Off='\e[0m'       # Text Reset
+
+# Regular Colors
+Black='\e[0;30m'        # Black
+Red='\e[0;31m'          # Red
+Green='\e[0;32m'        # Green
+Yellow='\e[0;33m'       # Yellow
+Blue='\e[0;34m'         # Blue
+Purple='\e[0;35m'       # Purple
+Cyan='\e[0;36m'         # Cyan
+White='\e[0;37m'        # White
+
+# Bold
+BBlack='\e[1;30m'       # Black
+BRed='\e[1;31m'         # Red
+BGreen='\e[1;32m'       # Green
+BYellow='\e[1;33m'      # Yellow
+BBlue='\e[1;34m'        # Blue
+BPurple='\e[1;35m'      # Purple
+BCyan='\e[1;36m'        # Cyan
+BWhite='\e[1;37m'       # White
+
 # Create a PS1 color based on the hostname
 function ps1_color() {
   HOST_HASH=$(hostname | sha1sum | awk '{print $1 }')
@@ -24,6 +46,7 @@ shopt -s checkwinsize
 e () {
   if [ -f ~/.env/$1 ]; then
     . ~/.env/$1
+    export ENV="[$1] "
   else
     echo "No such environment: $1"
   fi
@@ -35,16 +58,22 @@ if [ -f /etc/bashrc ]; then
 fi
 
 
+# Start building up $PS1
+P="\w\n"                                  # working dir + newline
+P+="\[\e[$(ps1_color)m\]<\u@\h>\[\e[0m\]" # <user@host>
+
 # Make bash completion work with git
 if [ -f /etc/bash_completion.d/git ]; then
   source /etc/bash_completion.d/git
-  export PS1="\[\e[$(ps1_color)m\]<\u@\h>\[\e[0m\] \w\[\e[31m\]\$(__git_ps1)\[\e[0m\] \$ "
+  P+="\[${Red}\]\$(__git_ps1)\[${Color_Off}\] "  # (git_branch)
 elif [ -f /usr/lib/git-core/git-sh-prompt ]; then
   source /usr/lib/git-core/git-sh-prompt
-  export PS1="\[\e[$(ps1_color)m\]<\u@\h>\[\e[0m\] \w\[\e[31m\]\$(__git_ps1)\[\e[0m\] \$ "
-else
-  export PS1="\[\e[$(ps1_color)m\]<\u@\h>\[\e[0m\] \w\[\e[31m\]\[\e[0m\] \$ "
+  P+="\[${Red}\]\$(__git_ps1)\[${Color_Off}\] "  # (git_branch)
 fi
+
+P+="\[${Green}\]\$ENV\[${Color_Off}\]" # [env]
+P+="\$ "
+export PS1=$P
 
 # Aliases
 alias g="ack-grep"
