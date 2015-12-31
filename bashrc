@@ -89,5 +89,10 @@ if [ -d ~/bin ]; then
     PATH=~/bin:"${PATH}"
 fi
 
+# add local bin items
+if [ -d ~/.local/bin ]; then
+    PATH=~/.local/bin:"${PATH}"
+fi
+
 # I am a terrible lazy person
 export PATH="$PATH:."
