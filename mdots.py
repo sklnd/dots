@@ -4,10 +4,10 @@
 A script for maintaining a dots repository.
 
 Features:
-    * Maintains a symlink farm for all files in the repository to the user's home
-      directory as dotfiles. Existing dotfiles that conflict with dotfiles that
-      conflict with files being deployed are backed up to a backup directory in
-      the repository.
+    * Maintains a symlink farm for all files in the repository to the user's
+      home directory as dotfiles. Existing dotfiles that conflict with dotfiles
+      that conflict with files being deployed are backed up to a backup
+      directory in the repository.
     * Manages vim plugins that are maintained in git as git submodules.
     * Supports updating the repositories submodules.
 
@@ -30,9 +30,9 @@ if sys.version > '3':
 else:
     from urlparse import urlparse
 
+from os import path
 import getopt
 import os
-import re
 import shutil
 import shlex
 import subprocess
@@ -78,26 +78,29 @@ def linkdot(dot):
         # If the file is a symlink pointing to the dots directory, it is
         # previously deployed from this repo. Print a log line and ignore it.
         if os.path.realpath(linkpath) == dotpath:
-            cprint("Previously deployed file:\t\t%s" % (linkpath),
-                    bcolors.OKBLUE)
-         # Otherwise, back up the existing file
+            cprint('{:60} {}'.format('Previously deployed file:', linkpath),
+                   bcolors.OKBLUE)
+        # Otherwise, back up the existing file
         else:
             backupdir = cwd + os.sep + "backup"
             if not os.path.exists(backupdir):
                 os.mkdir(backupdir)
 
             # Backup the file.
-            cprint("Backing up file:\t\t\t%s" % (linkpath), bcolors.WARNING)
-            if os.path.exists(backupdir + os.sep + dot):
-                os.remove(backupdir + os.sep + dot)
-            shutil.move(linkpath, backupdir + os.sep + dot)
+            cprint('{:60} {}'.format('Backing up file:', linkpath),
+                   bcolors.WARNING)
+            if os.path.exists(os.path.join(backupdir, dot)):
+                os.remove(path.join(backupdir, dot))
+            shutil.move(linkpath, path.join(backupdir, dot))
 
             # Go ahead and deploy the file.
-            cprint("Deploying %s:\t\t\t%s" % (dot, linkpath), bcolors.OKGREEN)
+            cprint('{:60} {}'.format('Deploying ' + dot + ':', linkpath),
+                   bcolors.OKGREEN)
             os.symlink(dotpath, linkpath)
 
     else:
-        cprint("Deploying %s:\t\t\t%s" % (dot, linkpath), bcolors.OKGREEN)
+        cprint('{:60} {}'.format('Deploying ' + dot + ':', linkpath),
+               bcolors.OKGREEN)
         os.symlink(dotpath, linkpath)
 
 
@@ -131,21 +134,21 @@ def add_vim_plugin(submodule):
 
     # Colorful printing is complicated
     cprint("Adding vim plugin ", bcolors.OKGREEN, "")
-    cprint("%s" % (plugin), bcolors.OKBLUE, "")
+    cprint("{}".format(plugin), bcolors.OKBLUE, "")
     if not url.netloc == "":
         cprint(" from ", bcolors.OKGREEN, "")
 
-    cprint("%s" % (url.netloc), bcolors.OKBLUE, "")
+    cprint("{}".format(url.netloc), bcolors.OKBLUE, "")
     cprint(":\t\t", bcolors.OKGREEN, "")
 
     # Generate a command string that's easy to maintain, and use shlex
     # to parse it to something Popen can use.
-    command = "git submodule add %s vim/bundle/%s" % (submodule, plugin)
+    command = "git submodule add {} vim/bundle/{}".format(submodule, plugin)
     args = shlex.split(command)
 
     # Run the process and collect its output
     p = subprocess.Popen(args, stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT)
+                         stderr=subprocess.STDOUT)
     err = p.wait()
     retval = p.stdout.read()
 
@@ -160,14 +163,14 @@ def add_vim_plugin(submodule):
 
 
 def main(argv=None):
-    do_update = False
-
     if argv is None:
         argv = sys.argv
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:],
-                "ahu", ["help", "update-submodules", "add-vim-plugin"])
+        opts, args = getopt.getopt(sys.argv[1:], "ahu",
+                                   ["help",
+                                    "update-submodules",
+                                    "add-vim-plugin"])
 
     except getopt.error as msg:
         cprint(msg, bcolors.FAIL)
