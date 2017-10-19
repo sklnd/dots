@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 A script for maintaining a dots repository.
@@ -21,21 +21,14 @@ Options:
         add a vim plugin at URL as a git submodule
 """
 
-from __future__ import print_function
-
-import sys
-
-if sys.version > '3':
-    from urllib.parse import urlparse
-else:
-    from urlparse import urlparse
-
 from os import path
+from urllib.parse import urlparse
 import getopt
 import os
-import shutil
 import shlex
+import shutil
 import subprocess
+import sys
 
 # Blacklisted files
 blacklist = [os.path.basename(__file__),
