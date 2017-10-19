@@ -1,7 +1,18 @@
 set nocompatible
 
-" Pathogen is pretty cool
-call pathogen#infect()
+" Plugins
+call plug#begin('~/.vim/plugged')
+Plug 'fholgado/minibufexpl.vim'
+Plug 'kien/ctrlp.vim'
+Plug 'majutsushi/tagbar'
+Plug 'mileszs/ack.vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'vim-scripts/JSON.vim'
+Plug 'vim-scripts/OmniCppComplete'
+Plug 'w0rp/ale'
+call plug#end()
 
 " Set up fonts to something pleasant
 if has("gui_running")
