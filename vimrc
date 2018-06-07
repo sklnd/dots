@@ -2,6 +2,7 @@ set nocompatible
 
 " Plugins
 call plug#begin('~/.vim/plugged')
+Plug 'airblade/vim-gitgutter'
 Plug 'fholgado/minibufexpl.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'majutsushi/tagbar'
@@ -50,15 +51,29 @@ colors tango
 
 " Tagbar
 nnoremap <silent> <F11> :TagbarToggle<CR>
-autocmd FileType * nested :call tagbar#autoopen(0)
+autocmd VimEnter * nested :call tagbar#autoopen(1)
 
 set guioptions-=T  " remove toolbar
 set guioptions+=LlRrb  " Add settings to
 set guioptions-=LlRrb  " remove scrollbars
 
+" wildignore/ctrl-p ignores
+set wildignore+=*.d,*.o,*.sw*
+let g:ctrlp_custom_ignore='\v\.(d|o|so|swp)$'
+
+" ctrl-p optimizations
+let g:ctrlp_use_caching = 0
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -u -g ""'
+else
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+endif
+
 set nomh
 
 set laststatus=2
+set noswapfile
 
 " Line numbers
 set nu
@@ -132,12 +147,19 @@ endif
 if has("gui_running")
   set listchars=tab:>>,trail:·,extends:<
   set list
+
+   nmap <silent> <F6> :silent set list!<CR>
+   imap <silent> <F6> <C-O>:silent set list!<CR>
 endif
 
 if has('mouse')
    " Dont copy the listchars when copying
    set mouse=nvi
 endif
+
+function SetJSONOptions()
+  set filetype=json
+endfunction
 
 if has('autocmd')
    " always refresh syntax from the start
@@ -152,6 +174,11 @@ if has('autocmd')
 
    " fix up procmail rule detection
    autocmd BufRead procmailrc :setfiletype procmail
+
+   " Fix python comment indent
+   autocmd BufRead *.py inoremap # X<c-h>#<space>
+
+  autocmd BufNewFile,BufRead,BufEnter *.json call SetJSONOptions()
 endif
 
 
@@ -211,7 +238,12 @@ map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>"
 " omnicomplete
 """"""""""""""""""
 " Set options for c++
-au BufNewFile,BufRead,BufEnter *.cxx,*.cpp,*.hpp,*.h set omnifunc=omni#cpp#complete#Main
+autocmd BufNewFile,BufRead,BufEnter *.cxx,*.cpp,*.hpp,*.h call SetCPPOptions()
+
+function SetCPPOptions()
+  set omnifunc=omni#cpp#complete#Main
+endfunction
+
 
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 1
@@ -239,6 +271,8 @@ inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 " Remap the up and down keys to be control + the normal vim arrow keys
 inoremap <expr> <C-j>     pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <C-k>     pumvisible() ? "\<C-p>" : "\<Up>"
+
+set nowrap
 
 """""""""""""""""""""
 " fugitive bindings
@@ -275,3 +309,14 @@ endfor
 for buffer_no in range(10, 100)
     execute "nmap <Leader>0" . buffer_no . " :b" . buffer_no . "\<CR>"
 endfor
+set colorcolumn=80
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/ 
+nmap <silent> <leader>h :match none<CR> :set cc=""<CR>
+imap <silent> <leader>h <C-O>:match none<CR> :set cc=""<CR>
+
+let python_highlight_all=1
+
+let g:ale_linters = {
+\   'python': ['flake8', 'pycodestyle'],
+\}

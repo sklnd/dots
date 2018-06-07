@@ -1,6 +1,9 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# Create a variable to indicate what environment we're using
+export ENV=""
+
 Color_Off='\e[0m'       # Text Reset
 
 # Regular Colors
@@ -33,7 +36,7 @@ function ps1_color() {
   echo "$PS1_BRIGHT;$PS1_COLOR"
 }
 
-export LC_ALL=C
+export LC_ALL=en_US.utf8
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -44,7 +47,9 @@ shopt -s checkwinsize
 
 # e will source a specific build environment script stored in .env
 e () {
-  if [ -f ~/.env/$1 ]; then
+  if [ $# -eq 0 ]; then
+    . ~/.bashrc
+  elif [ -f ~/.env/$1 ]; then
     . ~/.env/$1
     export ENV="[$1] "
   else
@@ -76,7 +81,8 @@ P+="\$ "
 export PS1=$P
 
 # Aliases
-alias g="ack-grep"
+alias g="ag"
+alias o="gnome-open"
 
 # Enable colors support in LS
 if [ "$TERM" != "dumb" ]; then
