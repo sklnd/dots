@@ -64,7 +64,7 @@ fi
 
 
 # Start building up $PS1
-P="\w\n"                                  # working dir + newline
+P="\[${Cyan}\]\w\[${Color_Off}\]\n"       # working dir + newline
 P+="\[\e[$(ps1_color)m\]<\u@\h>\[\e[0m\]" # <user@host>
 
 # Make bash completion work with git
