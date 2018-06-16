@@ -49,8 +49,8 @@ shopt -s checkwinsize
 e () {
   if [ $# -eq 0 ]; then
     . ~/.bashrc
-  elif [ -f ~/.env/$1 ]; then
-    . ~/.env/$1
+  elif [ -f ~/.env/$1.sh ]; then
+    . ~/.env/$1.sh
     export ENV="[$1] "
   else
     echo "No such environment: $1"
