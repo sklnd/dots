@@ -102,3 +102,5 @@ fi
 
 # I am a terrible lazy person
 export PATH="$PATH:."
+
+eval "$(direnv hook bash)"
