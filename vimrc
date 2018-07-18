@@ -100,7 +100,7 @@ set si
 
 set history=50
 set ruler
-"set textwidth=75
+set textwidth=120
 
 "Map folding to +
 set foldmethod=manual
@@ -321,9 +321,9 @@ endfor
 for buffer_no in range(10, 100)
     execute "nmap <Leader>0" . buffer_no . " :b" . buffer_no . "\<CR>"
 endfor
-set colorcolumn=80
+set colorcolumn=120
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/ 
+match OverLength /\%121v.\+/
 nmap <silent> <leader>h :match none<CR> :set cc=""<CR>
 imap <silent> <leader>h <C-O>:match none<CR> :set cc=""<CR>
 
@@ -332,3 +332,10 @@ let python_highlight_all=1
 let g:ale_linters = {
 \   'python': ['flake8', 'pycodestyle'],
 \}
+
+let g:ale_python_flake8_options="--ignore=E501"
+let g:ale_python_pycodestyle_options="--ignore=E501"
+
+" Map f1 to esc because the kinesis gaming keyboard is annoying
+map <F1> <Esc>
+imap <F1> <Esc>"
