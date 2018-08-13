@@ -4,10 +4,13 @@ set nocompatible
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'fholgado/minibufexpl.vim'
+Plug 'hdima/python-syntax'
 Plug 'kien/ctrlp.vim'
 Plug 'majutsushi/tagbar'
+Plug 'maxmellon/vim-jsx-pretty'
 Plug 'mileszs/ack.vim'
 Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
@@ -15,6 +18,11 @@ Plug 'vim-scripts/JSON.vim'
 Plug 'vim-scripts/OmniCppComplete'
 Plug 'w0rp/ale'
 call plug#end()
+
+let g:jsx_ext_required = 0
+
+let g:javascript_plugin_flow = 1
+let g:vim_jsx_pretty_enable_jsx_highlight = 1
 
 " Set up fonts to something pleasant
 if has("gui_running")
@@ -101,14 +109,10 @@ set si
 
 set history=50
 set ruler
-set textwidth=120
 
 "Map folding to +
 set foldmethod=manual
 map + v%zf
-
-" Some java abbreviations
-ab println System.out.println("");<esc>hhi
 
 " Auto-generate a end brace when needed.
 imap {<CR> {<Esc>o}<esc>O
@@ -188,9 +192,6 @@ if has('autocmd')
    " fix up procmail rule detection
    autocmd BufRead procmailrc :setfiletype procmail
 
-   " Fix python comment indent
-   autocmd BufRead *.py inoremap # X<c-h>#<space>
-
   autocmd BufNewFile,BufRead,BufEnter *.json call SetJSONOptions()
 endif
 
@@ -215,9 +216,6 @@ vmap <silent> <Tab> >gv
 
 " shift-tab unindents
 vmap <silent> <S-Tab> <gv
-
-" Page using space
-noremap <Space> <C-F>
 
 " shifted arrows are stupid
 inoremap <S-Up> <C-O>gk
@@ -309,9 +307,6 @@ endif
 set wildmenu
 set wildmode=list:longest,full
 
-" Python stuff
-au BufNewFile,BufRead,BufEnter *.py set sw=4
-
 " Buffer switching
 " switching to buffer 1 - 9 is mapped to ,[nOfBuffer]
 for buffer_no in range(1, 9)
@@ -328,15 +323,9 @@ match OverLength /\%121v.\+/
 nmap <silent> <leader>h :match none<CR> :set cc=""<CR>
 imap <silent> <leader>h <C-O>:match none<CR> :set cc=""<CR>
 
-let python_highlight_all=1
-
-let g:ale_linters = {
-\   'python': ['flake8', 'pycodestyle'],
-\}
-
-let g:ale_python_flake8_options="--ignore=E501"
-let g:ale_python_pycodestyle_options="--ignore=E501"
 
 " Map f1 to esc because the kinesis gaming keyboard is annoying
 map <F1> <Esc>
 imap <F1> <Esc>"
+
+let g:ale_fix_on_save = 1

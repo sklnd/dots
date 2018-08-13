@@ -104,3 +104,15 @@ fi
 export PATH="$PATH:."
 
 eval "$(direnv hook bash)"
+
+gg() {
+  cd ~/git/GitPrime
+}
+
+rs () {
+  pushd . > /dev/null
+  cd ~/git/GitPrime > /dev/null
+  inv stop-services
+  inv start-services
+  popd
+}

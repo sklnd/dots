@@ -1,0 +1,8 @@
+#!/bin/bash
+
+JIRA_ID=$(git rev-parse --abbrev-ref HEAD | sed -nr 's,(GP-[0-9]+)/.+,\1,p')
+
+if [[ ! -z $JIRA_ID ]] ; then
+ # $1 is the name of the file containing the commit message
+ sed -i.bak -e "1s/^/$JIRA_ID:\n\n/" "$1"
+fi
