@@ -82,7 +82,7 @@ export PS1=$P
 
 # Aliases
 alias g="ag"
-alias o="gnome-open"
+alias o="xdg-open"
 
 # Enable colors support in LS
 if [ "$TERM" != "dumb" ]; then
