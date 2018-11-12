@@ -21,9 +21,6 @@ call plug#end()
 
 let g:jsx_ext_required = 0
 
-let g:javascript_plugin_flow = 1
-let g:vim_jsx_pretty_enable_jsx_highlight = 1
-
 " Set up fonts to something pleasant
 if has("gui_running")
   if has("gui_gtk2")

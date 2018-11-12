@@ -5,6 +5,7 @@ set textwidth=120
 set expandtab
 set autoindent
 set fileformat=unix
+set syntax=javascript
 
 let b:ale_fixers = {
       \'javascript': ['prettier', 'eslint']
