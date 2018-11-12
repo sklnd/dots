@@ -14,7 +14,7 @@ let g:ale_fixers = {
 let g:ale_linters = {
       \'python': ['flake8', 'pycodestyle'],
       \}
-let g:ale_python_flake8_options="--ignore=E501"
+let g:ale_python_flake8_options="--ignore=E501,FI12,FI14,FI15,FI16,FI17,FI50,FI51,FI53"
 let g:ale_python_pycodestyle_options="--ignore=E501"
 
 
