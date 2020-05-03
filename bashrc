@@ -94,6 +94,9 @@ fi
 if [ -d ~/bin ]; then
     PATH=~/bin:"${PATH}"
 fi
+if [ -d ~/.bin ]; then
+    PATH=~/.bin:"${PATH}"
+fi
 
 # add local bin items
 if [ -d ~/.local/bin ]; then
@@ -107,12 +110,4 @@ eval "$(direnv hook bash)"
 
 gg() {
   cd ~/git/GitPrime
-}
-
-rs () {
-  pushd . > /dev/null
-  cd ~/git/GitPrime > /dev/null
-  inv stop-services
-  inv start-services
-  popd
 }

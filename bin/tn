@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Create a new configured tmux session
+tmux new-session \; \
+  split-window -v \; \
+  split-window -h \; \
+  select-pane -U \; \
+  split-window -h\; \
+  attach
