@@ -15,3 +15,5 @@
 	excludesfile = ~/.git_global_ignore
 [init]
 	templatedir = ~/.git_template
+[push]
+	default = current
