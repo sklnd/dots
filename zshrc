@@ -122,3 +122,7 @@ eval "$(direnv hook zsh)"
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/.local/bin
 
+########################## GitPrime Tools START ##########################
+export GITPRIME_TOOLS_HOME="/home/chris/.gitprime-tools"
+source /home/chris/.gitprime-tools/library/aliases.sh
+########################## GitPrime Tools STOP  ##########################
