@@ -106,8 +106,15 @@ fi
 # I am a terrible lazy person
 export PATH="$PATH:."
 
-eval "$(direnv hook bash)"
-
 gg() {
-  cd ~/git/GitPrime
+  cd ~/git/
 }
+
+. $HOME/.asdf/asdf.sh
+. $HOME/.poetry/env
+
+eval "$(asdf exec direnv hook bash)"
+
+# A shortcut for asdf managed direnv.
+direnv() { asdf exec direnv "$@"; }
+
