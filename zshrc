@@ -1,5 +1,3 @@
-source ~/.zplug/init.zsh
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -11,7 +9,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/chris/.oh-my-zsh"
+export ZSH="/${HOME}/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -112,9 +110,6 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# asdf tool management
-. $HOME/.asdf/asdf.sh
-
 # direnv manages python versions
 eval "$(direnv hook zsh)"
 
@@ -122,7 +117,19 @@ eval "$(direnv hook zsh)"
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/.local/bin
 
-########################## GitPrime Tools START ##########################
-export GITPRIME_TOOLS_HOME="/home/chris/.gitprime-tools"
-source /home/chris/.gitprime-tools/library/aliases.sh
-########################## GitPrime Tools STOP  ##########################
+# JAVA 8
+export PATH=/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/bin:$PATH
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/
+
+# JAVA 11
+#export PATH=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home/bin:$PATH
+#export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home
+
+# JAVA 15
+#export PATH=/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home/bin:$PATH
+#export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home
+
+. $(brew --prefix asdf)/asdf.sh
+# . ~/.asdf/plugins/java/set-java-home.zsh
+
+alias ng="npx ng"
