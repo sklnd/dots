@@ -1,4 +1,0 @@
-#!/bin/sh
-
-rm -rf .git/tags
-ctags --tag-relative --sort=foldcase -Rf.git/tags --exclude=.git --languages=-perl,python --c++-kinds=+p --fields=+iaS --extra=+q
