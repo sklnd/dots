@@ -17,3 +17,8 @@
 	templatedir = ~/.git_template
 [push]
 	default = current
+[color "status"]
+  added = green bold
+  changed = red bold strike
+  untracked = cyan
+  branch = yellow black bold ul
