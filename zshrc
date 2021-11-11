@@ -117,19 +117,38 @@ eval "$(direnv hook zsh)"
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/.local/bin
 
-# JAVA 8
-export PATH=/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/bin:$PATH
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/
+if [[ $OSTYPE == 'darwin'* ]]; then
+  # JAVA 8
+  #export PATH=/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/bin:$PATH
+  #export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/
 
-# JAVA 11
-#export PATH=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home/bin:$PATH
-#export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home
+  # JAVA 11
+  # export PATH=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home/bin:$PATH
+  # export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home
 
-# JAVA 15
-#export PATH=/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home/bin:$PATH
-#export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home
+  # JAVA 15
+  #export PATH=/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home/bin:$PATH
+  #export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home
 
-. $(brew --prefix asdf)/asdf.sh
+  . $(brew --prefix asdf)/asdf.sh
 # . ~/.asdf/plugins/java/set-java-home.zsh
+else
+  # JAVA 8
+  # export PATH=/home/chris/java/jdk1.8.0_301/bin:$PATH
+  # export JAVA_HOME=/home/chris/java/jdk1.8.0_301/
+
+  # JAVA 11
+  export PATH=/home/chris/java/jdk-11.0.12/bin:$PATH
+  export JAVA_HOME=/home/chris/java/jdk-11.0.12/
+
+  #export PATH=/home/chris/java/jdk-17/bin:$PATH
+ # export JAVA_HOME=/home/chris/java/jdk-17/
+
+  . $HOME/.asdf/asdf.sh
+
+fi
+
+
+export AWS_REGION=us-east-2
 
 alias ng="npx ng"
