@@ -13,8 +13,6 @@
 	editor = vim
 	autocrlf = false
 	excludesfile = ~/.git_global_ignore
-[init]
-	templatedir = ~/.git_template
 [push]
 	default = current
 [color "status"]
@@ -22,3 +20,12 @@
   changed = red bold strike
   untracked = cyan
   branch = yellow black bold ul
+[pull]
+	ff = only
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[init]
+	defaultBranch = main

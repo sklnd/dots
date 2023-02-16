@@ -77,7 +77,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git scd dotenv)
+plugins=(git scd dotenv ssh-agent)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -118,37 +118,27 @@ export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/.local/bin
 
 if [[ $OSTYPE == 'darwin'* ]]; then
-  # JAVA 8
-  #export PATH=/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/bin:$PATH
-  #export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/
-
-  # JAVA 11
-  # export PATH=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home/bin:$PATH
-  # export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home
-
-  # JAVA 15
-  #export PATH=/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home/bin:$PATH
-  #export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home
-
+  export PATH=/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home/bin:$PATH
+  export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home
   . $(brew --prefix asdf)/asdf.sh
-# . ~/.asdf/plugins/java/set-java-home.zsh
 else
-  # JAVA 8
-  # export PATH=/home/chris/java/jdk1.8.0_301/bin:$PATH
-  # export JAVA_HOME=/home/chris/java/jdk1.8.0_301/
-
-  # JAVA 11
-  export PATH=/home/chris/java/jdk-11.0.12/bin:$PATH
-  export JAVA_HOME=/home/chris/java/jdk-11.0.12/
-
-  #export PATH=/home/chris/java/jdk-17/bin:$PATH
- # export JAVA_HOME=/home/chris/java/jdk-17/
-
   . $HOME/.asdf/asdf.sh
-
 fi
 
-
-export AWS_REGION=us-east-2
+export GEM_HOME=~/.gem
+export GEM_PATH=~/.gem
+export PATH=$PATH:$HOME/.gem/bin
+export PATH=$PATH:/usr/local/opt/liquibase
+#export PATH=/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.0.0/bin:$PATH
+#export PATH=/opt/homebrew/opt/ruby/bin:$PATH
+export PATH=$(brew --prefix)/lib/ruby/gems/3.0.0/bin:$PATH
 
 alias ng="npx ng"
+alias sls="npx serverless"
+alias tg="terragrunt"
+alias k=kubectl
+
+[[ /opt/homebrew/bin/kubectl ]] && source <(kubectl completion zsh)
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)
